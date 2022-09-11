@@ -5,15 +5,17 @@ import getStyleHelper from "../style";
 
 export default function Three() {
 
-  const styleHelper = getStyleHelper()
+  const styleHelper = getStyleHelper();
+  const backgroundColor = styleHelper.getBackgroundColor().hex;
+  const foregroundColor = styleHelper.getForegroundColor().hex;
 
   return (
     <GLView
       style={{flex: 1}}
       onContextCreate={(gl) => {
         // scene
-        var scene = new THREE.Scene();
-        scene.background = new THREE.Color(styleHelper.getBackgroundColor().hex);
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(backgroundColor);
 
         // camera
         const camera = new THREE.PerspectiveCamera(
@@ -26,30 +28,42 @@ export default function Three() {
 
         // renderer
         const renderer = new Renderer({gl});
-        renderer.setSize(gl.drawingBufferWidth, gl.drawingBufferHeight);
 
         // cube
         const geometry = new THREE.BoxGeometry();
-        const material = new THREE.MeshBasicMaterial({color: styleHelper.getForegroundColor().hex});
-        const cube = new THREE.Mesh(geometry, material);
+        const cube = new THREE.Mesh(geometry);
+        cube.material.color = new THREE.Color(foregroundColor);
 
         // wireframe
         const wireframe = new THREE.WireframeGeometry(geometry);
         const line = new THREE.LineSegments(wireframe);
+        line.material.color = new THREE.Color(backgroundColor);
         line.material.depthTest = false;
         line.material.transparent = true;
-        line.material.color = new THREE.Color(styleHelper.getBackgroundColor().hex);
 
         scene.add(cube);
         scene.add(line);
 
         const animate = () => {
           requestAnimationFrame(animate);
+
+          // rotation
           cube.rotation.x += 0.01;
           line.rotation.x += 0.01;
 
           cube.rotation.y += 0.01;
           line.rotation.y += 0.01;
+
+          // make scene responsive
+          const canvas = renderer.domElement;
+          const width = gl.drawingBufferWidth;
+          const height = gl.drawingBufferHeight;
+          const needResize = canvas.width !== width || canvas.height !== height;
+          if (needResize) {
+            renderer.setSize(width, height, false);
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+          }
 
           renderer.render(scene, camera);
           gl.endFrameEXP();
