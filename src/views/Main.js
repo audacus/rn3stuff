@@ -1,11 +1,11 @@
-import {StatusBar} from 'expo-status-bar';
 import {Button, Text, View} from 'react-native';
 
 import getStyleHelper from "../style";
 import getLanguageHelper from "../language";
 
 export default function Main({navigation}) {
-  const styles = getStyleHelper().styleSheet
+
+  const styles = getStyleHelper().styleSheet;
   const i18n = getLanguageHelper().i18n;
 
   return (
@@ -19,8 +19,6 @@ export default function Main({navigation}) {
         title={i18n.t('button.three_js')}
         onPress={() => navigation.navigate('three_js')}
       />
-
-      <StatusBar style="auto"/>
 
     </View>
   );

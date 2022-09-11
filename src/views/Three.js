@@ -4,6 +4,7 @@ import {Renderer} from 'expo-three';
 import getStyleHelper from "../style";
 
 export default function Three() {
+
   const styleHelper = getStyleHelper()
 
   return (

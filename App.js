@@ -1,8 +1,10 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import getLanguageHelper from "./src/language";
 import Main from "./src/views/Main";
 import Three from "./src/views/Three";
+
+import getLanguageHelper from "./src/language";
+import {StatusBar} from "expo-status-bar";
 
 const Stack = createNativeStackNavigator();
 
@@ -12,6 +14,8 @@ export default function App() {
 
   return (
     <NavigationContainer>
+      <StatusBar/>
+
       <Stack.Navigator>
 
         <Stack.Screen
