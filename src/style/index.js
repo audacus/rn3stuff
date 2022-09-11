@@ -2,26 +2,33 @@ import {StyleSheet, useColorScheme} from 'react-native';
 
 export default function getStyleHelper() {
   const colorScheme = useColorScheme();
-  const darkMode = colorScheme === 'dark'
 
   const colors = {
     dark: {
-      string: '#222222',
-      hex: 0x222222,
+      background: {
+        string: '#222222',
+        hex: 0x222222,
+      },
+      foreground: {
+        string: '#dddddd',
+        hex: 0xdddddd,
+      },
     },
-    bright: {
-      string: '#dddddd',
-      hex: 0xdddddd,
+    light: {
+      background: {
+        string: '#dddddd',
+        hex: 0xdddddd,
+      },
+      foreground: {
+        string: '#222222',
+        hex: 0x222222,
+      }
     }
   }
 
-  const getBackgroundColor = () => {
-    return darkMode ? colors.dark : colors.bright;
-  }
+  const getBackgroundColor = () => colors[colorScheme].background;
 
-  const getForegroundColor = () => {
-    return darkMode ? colors.bright : colors.dark;
-  }
+  const getForegroundColor = () => colors[colorScheme].foreground;
 
   const styleSheet = StyleSheet.create({
     container: {
@@ -37,7 +44,6 @@ export default function getStyleHelper() {
 
   return {
     colorScheme,
-    darkMode,
     styleSheet,
     getBackgroundColor,
     getForegroundColor,
